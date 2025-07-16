@@ -4,6 +4,7 @@ import { colors } from "../util/Colors";
 
 export class ProdutoController implements ProdutoRepository {
 
+    private saldo: number = 1000;
     private listaProdutos: Array<Produto> = new Array<Produto>();
     numero: number = 0;
 
@@ -60,7 +61,14 @@ export class ProdutoController implements ProdutoRepository {
         }
 
         if (produto != null) {
+            const custo = quantidade * (produto.preco * 0.5);
+            if (custo > this.saldo) {
+                console.log(colors.fg.red,`\nSaldo insuficiente`, colors.reset);
+                return;
+            }
+
             produto.comprar(quantidade);
+            this.saldo -= custo;
             console.log(colors.fg.green,`\nCompra realizada com sucesso`, colors.reset);
 
         } else {
@@ -79,6 +87,8 @@ export class ProdutoController implements ProdutoRepository {
 
         if (produto != null) {
             if (produto.vender(quantidade) == true) {
+                const valor = produto.preco * quantidade;
+                this.saldo += valor;
                 console.log(colors.fg.green,`\nVenda realizada com sucesso`,colors.reset);
             }
         } else {
@@ -86,7 +96,9 @@ export class ProdutoController implements ProdutoRepository {
         }
     }
 
-
+    public mostrarSaldo(): void {
+        console.log(colors.fg.green,`\nSaldo atual da loja: R$${this.saldo.toFixed(2)}`, colors.reset);
+    }
 
 
 

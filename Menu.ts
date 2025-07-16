@@ -41,6 +41,7 @@ export function main() {
         console.log(`            5 - Apagar um Jogo                       `);
         console.log(`            6 - Comprar um Jogo                      `);
         console.log(`            7 - Vender um Jogo                       `);
+        console.log(`            8 - Exibir Saldo da Loja                 `); 
         console.log(`            0 - Encerrar                             `);
         console.log(`                                                     `);
         console.log(`*****************************************************`);
@@ -183,6 +184,13 @@ export function main() {
 
                 keyPress();
                 break;
+            case 8:
+                console.log(`\n\nMostrar saldo\n\n`);
+
+                produtos.mostrarSaldo();
+                
+                keyPress();
+                break;    
             default:
                 console.log(`\n\nOpção inválida!\n\n`);
 
