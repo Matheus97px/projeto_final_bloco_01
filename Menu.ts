@@ -63,3 +63,5 @@ export function sobre(): void {
     console.log(`GitHub: https://github.com/Matheus97px`);
     console.log(`*****************************************************`);
 }
+
+main();
