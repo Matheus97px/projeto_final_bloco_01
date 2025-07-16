@@ -38,7 +38,7 @@ export abstract class Produto {
         console.log(`*********************************************`);
         console.log(`Id: ${this._id}`);
         console.log(`Nome: ${this._nome}`);
-        console.log(`Preço: ${this._preco.toFixed(2)}`);
+        console.log(`Preço: R$${this._preco.toFixed(2)}`);
         console.log(`Quantidade: ${this._quantidade}`);
     }
 
