@@ -2,10 +2,11 @@ import readLine = require("readline-sync");
 import { JogoRetro } from "./src/model/JogoRetro";
 import { ProdutoController } from "./src/controller/ProdutoController";
 import { colors } from "./src/util/Colors";
+import { LojaController } from "./src/controller/LojaController";
 
 export function main() {
-
-    let produtos: ProdutoController = new ProdutoController();
+    let loja : LojaController = new LojaController();
+    let produtos: ProdutoController = new ProdutoController(loja);
 
     let opcao, id, quantidade, preco, anoLancamento, itemCarrinho: number;
     let nome, videoGame, produtoCarrinho, categoria: string;
@@ -187,7 +188,7 @@ export function main() {
             case 8:
                 console.log(`\n\nMostrar saldo\n\n`);
 
-                produtos.mostrarSaldo();
+                loja.mostrarSaldo();
                 
                 keyPress();
                 break;    

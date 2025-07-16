@@ -1,10 +1,16 @@
 import { Produto } from "../model/Produto";
 import { ProdutoRepository } from "../repository/ProdutoRepository";
 import { colors } from "../util/Colors";
+import { LojaController } from "./LojaController";
 
 export class ProdutoController implements ProdutoRepository {
 
-    private saldo: number = 1000;
+    constructor(private lojaController: LojaController) {
+        this.lojaController = lojaController;
+    }
+
+
+    private loja: LojaController = new LojaController();
     private listaProdutos: Array<Produto> = new Array<Produto>();
     numero: number = 0;
 
@@ -61,14 +67,10 @@ export class ProdutoController implements ProdutoRepository {
         }
 
         if (produto != null) {
-            const custo = quantidade * (produto.preco * 0.5);
-            if (custo > this.saldo) {
-                console.log(colors.fg.red,`\nSaldo insuficiente`, colors.reset);
-                return;
-            }
-
             produto.comprar(quantidade);
-            this.saldo -= custo;
+            const precoComDesconto = (produto.preco * 0.5) * quantidade;
+
+            this.lojaController.diminuirSaldo(precoComDesconto);
             console.log(colors.fg.green,`\nCompra realizada com sucesso`, colors.reset);
 
         } else {
@@ -87,8 +89,8 @@ export class ProdutoController implements ProdutoRepository {
 
         if (produto != null) {
             if (produto.vender(quantidade) == true) {
-                const valor = produto.preco * quantidade;
-                this.saldo += valor;
+                const valorVenda = produto.preco * quantidade;
+                this.lojaController.aumentarSaldo(valorVenda);
                 console.log(colors.fg.green,`\nVenda realizada com sucesso`,colors.reset);
             }
         } else {
@@ -96,9 +98,6 @@ export class ProdutoController implements ProdutoRepository {
         }
     }
 
-    public mostrarSaldo(): void {
-        console.log(colors.fg.green,`\nSaldo atual da loja: R$${this.saldo.toFixed(2)}`, colors.reset);
-    }
 
 
 
